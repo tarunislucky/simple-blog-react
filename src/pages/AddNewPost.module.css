@@ -1,0 +1,20 @@
+.inputGroup {
+}
+.inputGroup input,
+.inputGroup textarea {
+	display: block;
+	width: 100%;
+	border: 1px solid #eee;
+	margin-bottom: 10px;
+}
+
+.inputGroup label {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.addNewPostBtn {
+	padding: 5px 10px;
+	border: none;
+	cursor: pointer;
+}

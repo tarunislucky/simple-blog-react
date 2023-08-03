@@ -24,6 +24,15 @@ const Navigation = () => {
 				</li>
 				<li>
 					<NavLink
+						to="/new"
+						className={({ isActive }) =>
+							isActive ? styles.active : undefined
+						}>
+						Add New Post
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
 						to="/about"
 						className={({ isActive }) =>
 							isActive ? styles.active : undefined

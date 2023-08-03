@@ -5,6 +5,7 @@ import BlogPage from "./pages/BlogPage";
 import Homepage from "./pages/Homepage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import AddNewPost from "./pages/AddNewPost";
 
 function App() {
 	const router = createBrowserRouter([
@@ -19,6 +20,10 @@ function App() {
 				{
 					path: "blog",
 					element: <BlogPage />,
+				},
+				{
+					path: "/new",
+					element: <AddNewPost />,
 				},
 				{
 					path: "about",
