@@ -14,3 +14,6 @@ nav {
 	text-decoration: none;
 	color: #000;
 }
+.nav-list li a.active {
+	text-decoration: underline;
+}
