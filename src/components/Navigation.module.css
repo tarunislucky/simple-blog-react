@@ -1,0 +1,16 @@
+nav {
+	margin-bottom: 50px;
+}
+.nav-list {
+	list-style: none;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	gap: 40px;
+}
+.nav-list li {
+}
+.nav-list li a {
+	text-decoration: none;
+	color: #000;
+}
