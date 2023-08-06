@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { createUrlSlug } from "../utility/utility";
 import styles from "./AddNewPost.module.css";
@@ -7,6 +8,7 @@ const AddNewPost = () => {
 	const inputRef = useRef();
 	const inputContentRef = useRef();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const onFormSubmit = (event) => {
 		event.preventDefault();
@@ -29,9 +31,7 @@ const AddNewPost = () => {
 			},
 		});
 
-		// clear the inputs
-		inputRef.current.value = "";
-		inputContentRef.current.value = "";
+		return navigate("/blog");
 	};
 
 	return (

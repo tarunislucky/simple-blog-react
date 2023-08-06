@@ -3,8 +3,20 @@
 	border-radius: 10px;
 	padding: 20px;
 	margin-bottom: 10px;
+	position: relative;
 }
 .link {
 	text-decoration: none;
 	color: #000;
+}
+.btnDelete {
+	padding: 5px 8px;
+	border-radius: 10px;
+	border: none;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+.btnDelete:hover {
+	background-color: #b3b3b3;
 }
