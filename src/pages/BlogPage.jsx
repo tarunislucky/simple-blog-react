@@ -8,7 +8,13 @@ const BlogPage = () => {
 	return (
 		<main>
 			{posts.map((post) => (
-				<BlogPost key={post.id} post={post} />
+				<BlogPost
+					key={post.id}
+					id={post.id}
+					urlSlug={post.urlSlug}
+					postContent={post.postContent}
+					title={post.title}
+				/>
 			))}
 		</main>
 	);

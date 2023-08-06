@@ -1,21 +1,22 @@
 /* eslint-disable react/prop-types */
+import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./BlogPost.module.css";
 
-const BlogPost = ({ post }) => {
+const BlogPost = ({ id, urlSlug, title, postContent }) => {
 	const dispatch = useDispatch();
 
 	const deletePostHandler = (e) => {
 		e.preventDefault();
-		dispatch({ type: "deletePost", post: post });
+		dispatch({ type: "deletePost", post: { id: id } });
 	};
 
 	return (
-		<Link to={post.urlSlug} className={styles.link}>
+		<Link to={urlSlug} className={styles.link}>
 			<article className={styles.post}>
-				<h2>{post.title}</h2>
-				<p>{post.postContent}</p>
+				<h2>{title}</h2>
+				<p>{postContent}</p>
 				<button onClick={deletePostHandler} className={styles.btnDelete}>
 					X
 				</button>
@@ -23,4 +24,4 @@ const BlogPost = ({ post }) => {
 		</Link>
 	);
 };
-export default BlogPost;
+export default React.memo(BlogPost);
