@@ -8,6 +8,8 @@ const postsReducer = (state = { posts: [] }, action) => {
 			posts: [action.post, ...state.posts]
 		}
 	}
+
+	return state;
 }
 
 const store = createStore(postsReducer);

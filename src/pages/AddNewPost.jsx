@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
+
+import { createUrlSlug } from "../utility/utility";
 import styles from "./AddNewPost.module.css";
 const AddNewPost = () => {
 	const inputRef = useRef();
@@ -9,14 +11,27 @@ const AddNewPost = () => {
 	const onFormSubmit = (event) => {
 		event.preventDefault();
 
+		const title = inputRef.current.value.trim();
+		const content = inputContentRef.current.value.trim();
+
+		if (!title || !content) {
+			alert("Title or content is empty");
+			return;
+		}
+
 		dispatch({
 			type: "addNewPost",
 			post: {
 				id: Math.random(),
-				title: inputRef.current.value,
-				postContent: inputContentRef.current.value,
+				title: title,
+				urlSlug: createUrlSlug(title),
+				postContent: content,
 			},
 		});
+
+		// clear the inputs
+		inputRef.current.value = "";
+		inputContentRef.current.value = "";
 	};
 
 	return (
