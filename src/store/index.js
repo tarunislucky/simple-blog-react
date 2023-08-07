@@ -13,7 +13,19 @@ const postsReducer = (state = { posts: [] }, action) => {
 			posts: state.posts.filter(post => post.id !== action.post.id)
 		}
 	}
-
+	if (action.type === "updatePost") {
+		const updatedPosts = state.posts.map(post => {
+			if (post.id === action.post.id) {
+				return {
+					...post, title: action.post.title, postContent: action.post.postContent
+				}
+			}
+			return post;
+		})
+		return {
+			posts: updatedPosts
+		}
+	}
 	return state;
 }
 

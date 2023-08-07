@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import AddNewPost from "./pages/AddNewPost";
 import ErrorPage from "./pages/ErrorPage";
 import SingleBlogPost from "./pages/SingleBlogPost";
+import EditPage from "./pages/EditPage";
 
 function App() {
 	const router = createBrowserRouter([
@@ -25,9 +26,10 @@ function App() {
 					element: <BlogPage />,
 				},
 				{
-					path: "blog/:id",
+					path: "blog/:slug",
 					element: <SingleBlogPost />,
 				},
+				{ path: "blog/:slug/edit", element: <EditPage /> },
 				{
 					path: "/new",
 					element: <AddNewPost />,
