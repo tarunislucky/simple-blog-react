@@ -16,6 +16,7 @@ const BlogPage = () => {
 					title={post.title}
 				/>
 			))}
+			{posts.length === 0 && <h2>There are no posts!</h2>}
 		</main>
 	);
 };

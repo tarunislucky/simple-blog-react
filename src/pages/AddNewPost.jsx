@@ -1,51 +1,28 @@
-import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import Form from "../components/Form";
 import { createUrlSlug } from "../utility/utility";
-import styles from "./AddNewPost.module.css";
+
 const AddNewPost = () => {
-	const inputRef = useRef();
-	const inputContentRef = useRef();
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const onFormSubmit = (event) => {
-		event.preventDefault();
+	const dispatch = useDispatch();
 
-		const title = inputRef.current.value.trim();
-		const content = inputContentRef.current.value.trim();
-
-		if (!title || !content) {
-			alert("Title or content is empty");
-			return;
-		}
-
+	const createPostHandler = (newPostData) => {
 		dispatch({
 			type: "addNewPost",
 			post: {
 				id: Math.random(),
-				title: title,
-				urlSlug: createUrlSlug(title),
-				postContent: content,
+				title: newPostData.title,
+				urlSlug: createUrlSlug(newPostData.title),
+				postContent: newPostData.postContent,
 			},
 		});
 
 		return navigate("/blog");
 	};
 
-	return (
-		<form onSubmit={onFormSubmit}>
-			<div className={styles.inputGroup}>
-				<label>Title</label>
-				<input type="text" ref={inputRef} />
-			</div>
-			<div className={styles.inputGroup}>
-				<label>Post Body</label>
-				<textarea ref={inputContentRef} />
-			</div>
-			<button className={styles.addNewPostBtn}>Add Post</button>
-		</form>
-	);
+	return <Form onFormSubmit={createPostHandler} action="create" />;
 };
 export default AddNewPost;

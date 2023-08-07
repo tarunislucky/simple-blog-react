@@ -1,38 +1,46 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
 import styles from "./Form.module.css";
-const Form = ({ onFormSubmit, post }) => {
-	const [title, setTitle] = useState(post.title);
-	const [content, setContent] = useState(post.postContent);
+
+const Form = ({ onFormSubmit, post, action }) => {
+	const titleRef = useRef();
+	const contentRef = useRef();
 
 	const formHandler = (e) => {
 		e.preventDefault();
+
+		if (!titleRef.current.value.trim() || !contentRef.current.value.trim()) {
+			alert("title or content cannot be empty !");
+			return;
+		}
+
 		onFormSubmit({
-			id: post.id,
-			urlSlug: post.urlSlug,
-			title: title,
-			postContent: content,
+			title: titleRef.current.value,
+			postContent: contentRef.current.value,
 		});
 	};
 
-	const setPostTitle = (e) => {
-		setTitle(e.target.value);
-	};
-
-	const setPostContent = (e) => {
-		setContent(e.target.value);
-	};
+	useEffect(() => {
+		if (action === "update") {
+			titleRef.current.value = post.title;
+			contentRef.current.value = post.postContent;
+		}
+	}, []);
 
 	return (
 		<form onSubmit={formHandler}>
 			<div className={styles.inputGroup}>
 				<label>Title</label>
-				<input type="text" onChange={setPostTitle} value={title} />
+				<input type="text" ref={titleRef} />
 			</div>
 			<div className={styles.inputGroup}>
 				<label>Post Body</label>
-				<textarea onChange={setPostContent} value={content} />
+				<textarea ref={contentRef} />
 			</div>
-			<button className={styles.addNewPostBtn}>Update Post</button>
+			<button className={styles.submitPostBtn}>
+				{action === "create" && "Add post"}
+				{action === "update" && "Update Post"}
+			</button>
 		</form>
 	);
 };
