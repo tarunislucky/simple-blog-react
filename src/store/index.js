@@ -11,7 +11,7 @@ const postsReducer = (state = { posts: [] }, action) => {
 	}
 	if (action.type === "deletePost") {
 		return {
-			posts: state.posts.filter(post => post.id !== action.post.id)
+			posts: state.posts.filter(post => post._id !== action.post._id)
 		}
 	}
 	if (action.type === "updatePost") {
@@ -31,6 +31,8 @@ const postsReducer = (state = { posts: [] }, action) => {
 }
 
 const store = createStore(postsReducer, applyMiddleware(thunk));
+
+// Action creators (thunks)
 
 export const sendPostData = (post) => {
 	return async (dispatch) => {
@@ -92,6 +94,28 @@ export const updatePostData = (post) => {
 				type: "updatePost",
 				post: data.data.post,
 			})
+		} catch (err) {
+			console.log(err);
+		}
+	}
+}
+
+export const deletePostData = (post) => {
+	return async (dispatch) => {
+		const sendRequest = async () => {
+			const response = await fetch(`http://localhost:3000/api/v1/posts/${post._id}`,
+				{ method: "DELETE" });
+
+			if (!response.ok) {
+				throw new Error("Deleting post failed.");
+			}
+			return response;
+		}
+
+		try {
+			const response = await sendRequest();
+
+			dispatch({ type: "deletePost", post });
 		} catch (err) {
 			console.log(err);
 		}
