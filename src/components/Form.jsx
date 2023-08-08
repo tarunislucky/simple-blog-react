@@ -15,15 +15,15 @@ const Form = ({ onFormSubmit, post, action }) => {
 		}
 
 		onFormSubmit({
-			title: titleRef.current.value,
-			postContent: contentRef.current.value,
+			name: titleRef.current.value,
+			content: contentRef.current.value,
 		});
 	};
 
 	useEffect(() => {
 		if (action === "update") {
-			titleRef.current.value = post.title;
-			contentRef.current.value = post.postContent;
+			titleRef.current.value = post.name;
+			contentRef.current.value = post.content;
 		}
 	}, []);
 
@@ -33,10 +33,12 @@ const Form = ({ onFormSubmit, post, action }) => {
 				<label>Title</label>
 				<input type="text" ref={titleRef} />
 			</div>
+
 			<div className={styles.inputGroup}>
 				<label>Post Body</label>
 				<textarea ref={contentRef} />
 			</div>
+
 			<button className={styles.submitPostBtn}>
 				{action === "create" && "Add post"}
 				{action === "update" && "Update Post"}

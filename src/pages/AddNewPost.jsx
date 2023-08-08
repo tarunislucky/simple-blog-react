@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Form from "../components/Form";
+import { sendPostData } from "../store";
 import { createUrlSlug } from "../utility/utility";
 
 const AddNewPost = () => {
@@ -10,15 +11,13 @@ const AddNewPost = () => {
 	const dispatch = useDispatch();
 
 	const createPostHandler = (newPostData) => {
-		dispatch({
-			type: "addNewPost",
-			post: {
-				id: Math.random(),
-				title: newPostData.title,
-				urlSlug: createUrlSlug(newPostData.title),
-				postContent: newPostData.postContent,
-			},
-		});
+		const post = {
+			name: newPostData.name,
+			content: newPostData.content,
+			urlSlug: createUrlSlug(newPostData.name),
+		};
+
+		dispatch(sendPostData(post));
 
 		return navigate("/blog");
 	};

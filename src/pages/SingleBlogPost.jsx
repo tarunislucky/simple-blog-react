@@ -14,11 +14,11 @@ const SingleBlogPost = () => {
 	};
 	return (
 		<article>
-			<h2 className={styles.postTitle}>{post.title}</h2>
+			<h2 className={styles.postTitle}>{post.name}</h2>
 			<button onClick={editBtnhandler} className={styles.editBtn}>
 				Edit
 			</button>
-			<p>{post.postContent}</p>
+			<p>{post.content}</p>
 		</article>
 	);
 };

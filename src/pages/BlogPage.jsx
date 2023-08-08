@@ -5,15 +5,16 @@ const BlogPage = () => {
 	const posts = useSelector((state) => {
 		return state.posts;
 	});
+
 	return (
 		<main>
 			{posts.map((post) => (
 				<BlogPost
-					key={post.id}
-					id={post.id}
+					key={post._id}
+					_id={post._id}
 					urlSlug={post.urlSlug}
-					postContent={post.postContent}
-					title={post.title}
+					content={post.content}
+					name={post.name}
 				/>
 			))}
 			{posts.length === 0 && <h2>There are no posts!</h2>}

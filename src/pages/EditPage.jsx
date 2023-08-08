@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Form from "../components/Form";
+import { updatePostData } from "../store";
 const EditPage = () => {
 	const { slug } = useParams();
 	const navigate = useNavigate();
@@ -11,10 +12,7 @@ const EditPage = () => {
 		return state.posts.find((post) => post.urlSlug === slug);
 	});
 	const updatePostHandler = (updatedPost) => {
-		dispatch({
-			type: "updatePost",
-			post: { ...updatedPost, id: post.id, urlSlug: post.urlSlug },
-		});
+		dispatch(updatePostData({ ...updatedPost, _id: post._id }));
 		return navigate(`/blog/${post.urlSlug}`);
 	};
 

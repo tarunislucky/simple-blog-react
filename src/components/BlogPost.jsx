@@ -4,19 +4,19 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./BlogPost.module.css";
 
-const BlogPost = ({ id, urlSlug, title, postContent }) => {
+const BlogPost = ({ _id, name, content, urlSlug }) => {
 	const dispatch = useDispatch();
 
 	const deletePostHandler = (e) => {
 		e.preventDefault();
-		dispatch({ type: "deletePost", post: { id: id } });
+		dispatch({ type: "deletePost", post: { _id } });
 	};
 
 	return (
 		<Link to={urlSlug} className={styles.link}>
 			<article className={styles.post}>
-				<h2>{title}</h2>
-				<p>{postContent}</p>
+				<h2>{name}</h2>
+				<p>{content}</p>
 				<button onClick={deletePostHandler} className={styles.btnDelete}>
 					X
 				</button>
