@@ -1,10 +1,22 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BlogPost from "../components/BlogPost";
+import { fetchPostsData } from "../store";
 
+let isInitial = true;
 const BlogPage = () => {
+	const dispatch = useDispatch();
+
 	const posts = useSelector((state) => {
 		return state.posts;
 	});
+
+	useEffect(() => {
+		if (isInitial) {
+			dispatch(fetchPostsData());
+			isInitial = false;
+		}
+	}, []);
 
 	return (
 		<main>
@@ -17,7 +29,6 @@ const BlogPage = () => {
 					name={post.name}
 				/>
 			))}
-			{posts.length === 0 && <h2>There are no posts!</h2>}
 		</main>
 	);
 };

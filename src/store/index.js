@@ -16,7 +16,7 @@ const postsReducer = (state = { posts: [] }, action) => {
 	}
 	if (action.type === "updatePost") {
 		const updatedPosts = state.posts.map(post => {
-			if (post.id === action.post.id) {
+			if (post._id === action.post._id) {
 				return {
 					...post, name: action.post.name, content: action.post.content
 				}
@@ -26,6 +26,11 @@ const postsReducer = (state = { posts: [] }, action) => {
 		return {
 			posts: updatedPosts
 		}
+	}
+	if (action.type === "setState") {
+		return {
+			posts: action.posts
+		};
 	}
 	return state;
 }
@@ -116,6 +121,30 @@ export const deletePostData = (post) => {
 			const response = await sendRequest();
 
 			dispatch({ type: "deletePost", post });
+		} catch (err) {
+			console.log(err);
+		}
+	}
+}
+
+export const fetchPostsData = () => {
+	return async (dispatch) => {
+		const sendRequest = async () => {
+			const response = await fetch("http://localhost:3000/api/v1/posts", { method: "GET" })
+
+			if (!response.ok) {
+				throw new Error("no posts found");
+			}
+			return response;
+		}
+		try {
+			const response = await sendRequest();
+			const data = await response.json();
+
+			dispatch({
+				type: "setState",
+				posts: data.data.posts
+			})
 		} catch (err) {
 			console.log(err);
 		}
