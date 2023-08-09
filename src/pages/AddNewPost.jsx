@@ -10,14 +10,14 @@ const AddNewPost = () => {
 
 	const dispatch = useDispatch();
 
-	const createPostHandler = (newPostData) => {
+	const createPostHandler = async (newPostData) => {
 		const post = {
 			name: newPostData.name,
 			content: newPostData.content,
 			urlSlug: createUrlSlug(newPostData.name),
 		};
 
-		dispatch(sendPostData(post));
+		await dispatch(sendPostData(post));
 
 		return navigate("/blog");
 	};

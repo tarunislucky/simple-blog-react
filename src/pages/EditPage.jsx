@@ -11,8 +11,8 @@ const EditPage = () => {
 	const post = useSelector((state) => {
 		return state.posts.find((post) => post.urlSlug === slug);
 	});
-	const updatePostHandler = (updatedPost) => {
-		dispatch(updatePostData({ ...updatedPost, _id: post._id }));
+	const updatePostHandler = async (updatedPost) => {
+		await dispatch(updatePostData({ ...updatedPost, _id: post._id }));
 		return navigate(`/blog/${post.urlSlug}`);
 	};
 
