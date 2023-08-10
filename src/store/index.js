@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const postsReducer = (state = { posts: [] }, action) => {
 
@@ -42,7 +43,7 @@ const store = createStore(postsReducer, applyMiddleware(thunk));
 export const sendPostData = (post) => {
 	return async (dispatch) => {
 		const sendRequest = async () => {
-			const response = await fetch("http://localhost:3000/api/v1/posts",
+			const response = await fetch(`${API_URL}/api/v1/posts`,
 				{
 					method: "POST",
 					headers: {
@@ -74,7 +75,7 @@ export const sendPostData = (post) => {
 export const updatePostData = (post) => {
 	return async (dispatch) => {
 		const sendRequest = async () => {
-			const response = await fetch(`http://localhost:3000/api/v1/posts/${post.urlSlug}`,
+			const response = await fetch(`${API_URL}/api/v1/posts/${post.urlSlug}`,
 				{
 					method: "PATCH",
 					headers: {
@@ -107,7 +108,7 @@ export const updatePostData = (post) => {
 export const deletePostData = (post) => {
 	return async (dispatch) => {
 		const sendRequest = async () => {
-			const response = await fetch(`http://localhost:3000/api/v1/posts/${post.urlSlug}`,
+			const response = await fetch(`${API_URL}/api/v1/posts/${post.urlSlug}`,
 				{ method: "DELETE" });
 
 			if (!response.ok) {
@@ -129,7 +130,7 @@ export const deletePostData = (post) => {
 export const fetchPostsData = () => {
 	return async (dispatch) => {
 		const sendRequest = async () => {
-			const response = await fetch("http://localhost:3000/api/v1/posts", { method: "GET" })
+			const response = await fetch(`${API_URL}/api/v1/posts`, { method: "GET" })
 
 			if (!response.ok) {
 				throw new Error("no posts found");
