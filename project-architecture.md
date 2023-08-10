@@ -10,3 +10,9 @@
 useEffect is executed after first render. so on first render we execute the parent and child with empty data. then load data using useEffect in App, then set state and trigger another render .
 
 since components are rendered first before API request. we can show a spinner (loading...)
+
+## can we use router loader and actions instead of redux thunks ?
+
+that would make it difficult, becuase we need state otherwise it wouldn't update(like on delete)
+
+we should use router for only routing and navigation. otherwise it would become clumsy.

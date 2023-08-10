@@ -6,6 +6,8 @@ const BlogPage = () => {
 		return state.posts;
 	});
 
+	console.log("BlogPage");
+
 	return (
 		<main>
 			{posts.map((post) => (
