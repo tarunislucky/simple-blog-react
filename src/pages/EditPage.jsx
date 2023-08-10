@@ -11,11 +11,18 @@ const EditPage = () => {
 	const post = useSelector((state) => {
 		return state.posts.find((post) => post.urlSlug === slug);
 	});
+
 	const updatePostHandler = async (updatedPost) => {
-		await dispatch(updatePostData({ ...updatedPost, _id: post._id }));
+		await dispatch(updatePostData({ ...updatedPost, urlSlug: slug }));
 		return navigate(`/blog/${post.urlSlug}`);
 	};
 
-	return <Form onFormSubmit={updatePostHandler} post={post} action="update" />;
+	return (
+		<>
+			{post && (
+				<Form onFormSubmit={updatePostHandler} post={post} action="update" />
+			)}
+		</>
+	);
 };
 export default EditPage;

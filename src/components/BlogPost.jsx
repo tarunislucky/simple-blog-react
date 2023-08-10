@@ -1,16 +1,15 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./BlogPost.module.css";
 import { deletePostData } from "../store";
 
-const BlogPost = ({ _id, name, content, urlSlug }) => {
+const BlogPost = ({ name, content, urlSlug }) => {
 	const dispatch = useDispatch();
 
 	const deletePostHandler = (e) => {
 		e.preventDefault();
-		dispatch(deletePostData({ _id }));
+		dispatch(deletePostData({ urlSlug }));
 	};
 
 	return (

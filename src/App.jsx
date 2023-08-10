@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import "./App.css";
 import Root from "./pages/Root";
 import BlogPage from "./pages/BlogPage";
@@ -9,8 +11,13 @@ import AddNewPost from "./pages/AddNewPost";
 import ErrorPage from "./pages/ErrorPage";
 import SingleBlogPost from "./pages/SingleBlogPost";
 import EditPage from "./pages/EditPage";
+import { fetchPostsData } from "./store";
+
+let isInitial = true;
 
 function App() {
+	const dispatch = useDispatch();
+
 	const router = createBrowserRouter([
 		{
 			path: "/",
@@ -45,6 +52,13 @@ function App() {
 			],
 		},
 	]);
+
+	useEffect(() => {
+		if (isInitial) {
+			dispatch(fetchPostsData());
+			isInitial = false;
+		}
+	}, []);
 
 	return <RouterProvider router={router} />;
 }

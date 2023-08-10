@@ -11,7 +11,7 @@ const postsReducer = (state = { posts: [] }, action) => {
 	}
 	if (action.type === "deletePost") {
 		return {
-			posts: state.posts.filter(post => post._id !== action.post._id)
+			posts: state.posts.filter(post => post.urlSlug !== action.post.urlSlug)
 		}
 	}
 	if (action.type === "updatePost") {
@@ -51,7 +51,6 @@ export const sendPostData = (post) => {
 					body: JSON.stringify(post)
 				}
 			);
-
 			if (!response.ok) {
 				throw new Error("Sending post data failed.");
 			}
@@ -75,7 +74,7 @@ export const sendPostData = (post) => {
 export const updatePostData = (post) => {
 	return async (dispatch) => {
 		const sendRequest = async () => {
-			const response = await fetch(`http://localhost:3000/api/v1/posts/${post._id}`,
+			const response = await fetch(`http://localhost:3000/api/v1/posts/${post.urlSlug}`,
 				{
 					method: "PATCH",
 					headers: {
@@ -108,7 +107,7 @@ export const updatePostData = (post) => {
 export const deletePostData = (post) => {
 	return async (dispatch) => {
 		const sendRequest = async () => {
-			const response = await fetch(`http://localhost:3000/api/v1/posts/${post._id}`,
+			const response = await fetch(`http://localhost:3000/api/v1/posts/${post.urlSlug}`,
 				{ method: "DELETE" });
 
 			if (!response.ok) {
