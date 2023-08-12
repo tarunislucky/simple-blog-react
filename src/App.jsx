@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./App.css";
 import Root from "./pages/Root";
-import BlogPage from "./pages/BlogPage";
+import BlogPage, { blogLoader } from "./pages/BlogPage";
 import Homepage from "./pages/Homepage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -31,6 +31,7 @@ function App() {
 				{
 					path: "blog",
 					element: <BlogPage />,
+					loader: blogLoader,
 				},
 				{
 					path: "blog/:slug",
