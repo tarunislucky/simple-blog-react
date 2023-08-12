@@ -1,49 +1,36 @@
 import { useEffect } from "react";
 import { useRef } from "react";
+import { Form } from "react-router-dom";
 import styles from "./Form.module.css";
 
-const Form = ({ onFormSubmit, post, action }) => {
+const PostForm = ({ post, action }) => {
 	const titleRef = useRef();
 	const contentRef = useRef();
 
-	const formHandler = (e) => {
-		e.preventDefault();
-
-		if (!titleRef.current.value.trim() || !contentRef.current.value.trim()) {
-			alert("title or content cannot be empty !");
-			return;
-		}
-
-		onFormSubmit({
-			name: titleRef.current.value,
-			content: contentRef.current.value,
-		});
-	};
-
 	useEffect(() => {
-		if (action === "update") {
+		if (action === "patch") {
 			titleRef.current.value = post.name;
 			contentRef.current.value = post.content;
 		}
 	}, []);
 
 	return (
-		<form onSubmit={formHandler}>
+		<Form method={action}>
 			<div className={styles.inputGroup}>
 				<label>Title</label>
-				<input type="text" ref={titleRef} />
+				<input type="text" ref={titleRef} name="name" />
 			</div>
 
 			<div className={styles.inputGroup}>
 				<label>Post Body</label>
-				<textarea ref={contentRef} />
+				<textarea ref={contentRef} name="content" />
 			</div>
 
 			<button className={styles.submitPostBtn}>
-				{action === "create" && "Add post"}
-				{action === "update" && "Update Post"}
+				{action === "post" && "Add post"}
+				{action === "patch" && "Update Post"}
 			</button>
-		</form>
+		</Form>
 	);
 };
-export default Form;
+export default PostForm;

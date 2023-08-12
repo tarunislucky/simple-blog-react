@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useLoaderData } from "react-router-dom";
+
 import BlogPost from "../components/BlogPost";
+import { API_URL } from "../utility/API_URL";
 
 const BlogPage = () => {
 	const fetchedPosts = useLoaderData();
 	const [posts, setPosts] = useState(fetchedPosts);
 
-	console.log("BlogPage");
+	const deletePostHandler = useCallback(async (slug) => {
+		const response = await fetch(`${API_URL}/api/v1/posts/${slug}`, {
+			method: "DELETE",
+		});
+
+		if (response.ok) {
+			setPosts((prevState) => {
+				return prevState.filter((post) => post.urlSlug !== slug);
+			});
+		}
+	}, []);
 
 	return (
 		<main>
@@ -16,14 +28,13 @@ const BlogPage = () => {
 					urlSlug={post.urlSlug}
 					content={post.content}
 					name={post.name}
+					onDelete={deletePostHandler}
 				/>
 			))}
 		</main>
 	);
 };
 export const blogLoader = async () => {
-	const API_URL = import.meta.env.VITE_API_URL;
-
 	const sendRequest = async () => {
 		const response = await fetch(`${API_URL}/api/v1/posts`, { method: "GET" });
 
@@ -32,12 +43,10 @@ export const blogLoader = async () => {
 		}
 		return response;
 	};
-	try {
-		const response = await sendRequest();
-		const data = await response.json();
-		return data.data.posts;
-	} catch (err) {
-		console.log(err);
-	}
+
+	const response = await sendRequest();
+	const data = await response.json();
+	return data.data.posts;
 };
+
 export default BlogPage;

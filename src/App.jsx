@@ -1,23 +1,17 @@
-import { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
 import "./App.css";
 import Root from "./pages/Root";
 import BlogPage, { blogLoader } from "./pages/BlogPage";
 import Homepage from "./pages/Homepage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import AddNewPost from "./pages/AddNewPost";
+import AddNewPost, { createPostAction } from "./pages/AddNewPost";
 import ErrorPage from "./pages/ErrorPage";
-import SingleBlogPost from "./pages/SingleBlogPost";
-import EditPage from "./pages/EditPage";
-import { fetchPostsData } from "./store";
-
-let isInitial = true;
+import SingleBlogPost, { singlePostLoader } from "./pages/SingleBlogPost";
+import EditPage, { updatePostAction } from "./pages/EditPage";
 
 function App() {
-	const dispatch = useDispatch();
-
 	const router = createBrowserRouter([
 		{
 			path: "/",
@@ -36,11 +30,18 @@ function App() {
 				{
 					path: "blog/:slug",
 					element: <SingleBlogPost />,
+					loader: singlePostLoader,
 				},
-				{ path: "blog/:slug/edit", element: <EditPage /> },
+				{
+					path: "blog/:slug/edit",
+					element: <EditPage />,
+					loader: singlePostLoader,
+					action: updatePostAction,
+				},
 				{
 					path: "/new",
 					element: <AddNewPost />,
+					action: createPostAction,
 				},
 				{
 					path: "about",
@@ -53,13 +54,6 @@ function App() {
 			],
 		},
 	]);
-
-	useEffect(() => {
-		if (isInitial) {
-			dispatch(fetchPostsData());
-			isInitial = false;
-		}
-	}, []);
 
 	return <RouterProvider router={router} />;
 }

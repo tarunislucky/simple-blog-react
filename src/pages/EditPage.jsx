@@ -1,28 +1,34 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import Form from "../components/Form";
-import { updatePostData } from "../store";
+import { redirect, useLoaderData } from "react-router-dom";
+
+import { API_URL } from "../utility/API_URL";
+
+import PostForm from "../components/Form";
 const EditPage = () => {
-	const { slug } = useParams();
-	const navigate = useNavigate();
+	const post = useLoaderData();
 
-	const dispatch = useDispatch();
+	return <>{post && <PostForm post={post} action="patch" />}</>;
+};
 
-	const post = useSelector((state) => {
-		return state.posts.find((post) => post.urlSlug === slug);
-	});
+export const updatePostAction = async ({ request, params }) => {
+	const postData = await request.formData();
 
-	const updatePostHandler = async (updatedPost) => {
-		await dispatch(updatePostData({ ...updatedPost, urlSlug: slug }));
-		return navigate(`/blog/${post.urlSlug}`);
+	const post = {
+		name: postData.get("name"),
+		content: postData.get("content"),
 	};
 
-	return (
-		<>
-			{post && (
-				<Form onFormSubmit={updatePostHandler} post={post} action="update" />
-			)}
-		</>
-	);
+	const response = await fetch(`${API_URL}/api/v1/posts/${params.slug}`, {
+		method: "PATCH",
+		headers: {
+			"Content-type": "application/json",
+		},
+		body: JSON.stringify(post),
+	});
+
+	if (!response.ok) {
+		throw new Error("could not update the post");
+	}
+
+	return redirect(`/blog/${params.slug}`);
 };
 export default EditPage;

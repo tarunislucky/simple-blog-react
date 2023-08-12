@@ -1,27 +1,39 @@
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
-import Form from "../components/Form";
-import { sendPostData } from "../store";
+import PostForm from "../components/Form";
 import { createUrlSlug } from "../utility/utility";
+import { API_URL } from "../utility/API_URL";
 
 const AddNewPost = () => {
-	const navigate = useNavigate();
+	return <PostForm action="post" />;
+};
 
-	const dispatch = useDispatch();
+export const createPostAction = async ({ request }) => {
+	const postData = await request.formData();
 
-	const createPostHandler = async (newPostData) => {
-		const post = {
-			name: newPostData.name,
-			content: newPostData.content,
-			urlSlug: createUrlSlug(newPostData.name),
-		};
-
-		await dispatch(sendPostData(post));
-
-		return navigate("/blog");
+	const post = {
+		name: postData.get("name"),
+		content: postData.get("content"),
+		urlSlug: createUrlSlug(postData.get("name")),
 	};
 
-	return <Form onFormSubmit={createPostHandler} action="create" />;
+	if (!post.name || !post.content) {
+		alert("name or content can not be empty");
+		return null;
+	}
+
+	const response = await fetch(`${API_URL}/api/v1/posts`, {
+		method: "POST",
+		headers: {
+			"Content-type": "application/json",
+		},
+		body: JSON.stringify(post),
+	});
+
+	if (!response.ok) {
+		throw new Error("Sending post data failed.");
+	}
+	const data = await response.json();
+	return redirect("/blog");
 };
 export default AddNewPost;

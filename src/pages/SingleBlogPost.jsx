@@ -1,13 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
+
 import styles from "./SingleBlogPost.module.css";
+import { API_URL } from "../utility/API_URL";
 
 const SingleBlogPost = () => {
+	const post = useLoaderData();
 	const navigate = useNavigate();
-	const { slug } = useParams();
-	const post = useSelector((state) => {
-		return state.posts.find((post) => post.urlSlug === slug);
-	});
+
 	const editBtnhandler = () => {
 		return navigate("edit");
 	};
@@ -25,5 +24,16 @@ const SingleBlogPost = () => {
 			)}
 		</>
 	);
+};
+
+export const singlePostLoader = async ({ params }) => {
+	const response = await fetch(`${API_URL}/api/v1/posts/${params.slug}`, {
+		method: "GET",
+	});
+	if (!response.ok) {
+		throw new Error("could not get the post");
+	}
+	const data = await response.json();
+	return data.data.post;
 };
 export default SingleBlogPost;
